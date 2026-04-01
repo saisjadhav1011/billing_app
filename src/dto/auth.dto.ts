@@ -23,3 +23,15 @@ export class SignUpDto {
     @MinLength(8, { message: 'Password must be at least 8 characters long' })
     password: string;
 }
+
+export class SignInDto {
+    @ApiProperty({ description: 'User email', example: 'user@example.com', required: true })
+    @IsEmail({}, { message: 'Invalid email format' })
+    @IsNotEmpty({ message: 'Email is required' })
+    email: string;
+
+    @ApiProperty({ description: 'User password', example: 'Password123!', required: true })
+    @IsString({ message: 'Password must be a string' })
+    @IsNotEmpty({ message: 'Password is required' })
+    password: string;
+}
