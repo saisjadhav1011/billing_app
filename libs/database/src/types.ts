@@ -25,3 +25,9 @@ export enum ProductUnit {
     FEET = 'FEET',
     INCH = 'INCH'
 }
+
+
+export enum UserRole {
+    ADMIN = 'Admin',
+    Customer = 'Customer'
+}
