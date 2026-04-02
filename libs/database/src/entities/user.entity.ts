@@ -1,5 +1,6 @@
 import { Exclude } from "class-transformer";
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UserRole } from "../types";
 
 @Entity('user')
 export class UserEntity extends BaseEntity {
@@ -25,6 +26,25 @@ export class UserEntity extends BaseEntity {
         type: 'varchar', name: 'password', nullable: false
     })
     password: string;
+
+    @Column({
+        type: 'enum',
+        enum: UserRole,
+        default: UserRole.Customer,
+    })
+    role: UserRole;
+
+    @Column({
+        name: 'refresh_token',
+        nullable: true
+    })
+    refreshToken: string;
+
+    @Column({
+        name: 'reset_token',
+        nullable: true
+    })
+    resetToken: string;
 
     /*
     * Create and Update Date Columns
