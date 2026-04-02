@@ -35,3 +35,7 @@ export class SignInDto {
     @IsNotEmpty({ message: 'Password is required' })
     password: string;
 }
+
+export class SignInResponseDto{
+    
+}

@@ -28,6 +28,12 @@
       "@app/database/*": [
         "libs/database/src/*"
       ],
+      "@app/helpers": [
+        "libs/helpers/src"
+      ],
+      "@app/helpers/*": [
+        "libs/helpers/src/*"
+      ],
       "@app/jwt-auth": [
         "libs/jwt-auth/src"
       ],

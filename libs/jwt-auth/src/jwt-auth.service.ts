@@ -9,7 +9,7 @@ export class JwtAuthService {
         private readonly configService: ConfigService,
     ) { }
 
-    generateAccessToken(input: { userId: string, email: string }) {
+    generateAccessToken(input: { userId: number, email: string }) {
         return this.jwtService.signAsync({
             sub: input.userId,
             email: input.email
@@ -19,7 +19,7 @@ export class JwtAuthService {
         });
     }
 
-    generateRefreshToken(input: { userId: string, email: string }) {
+    generateRefreshToken(input: { userId: number, email: string }) {
         return this.jwtService.signAsync({
             sub: input.userId,
             email: input.email

@@ -16,6 +16,15 @@
         "tsConfigPath": "libs/database/tsconfig.lib.json"
       }
     },
+    "helpers": {
+      "type": "library",
+      "root": "libs/helpers",
+      "entryFile": "index",
+      "sourceRoot": "libs/helpers/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/helpers/tsconfig.lib.json"
+      }
+    },
     "jwt-auth": {
       "type": "library",
       "root": "libs/jwt-auth",

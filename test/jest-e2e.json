@@ -12,6 +12,7 @@
   },
   "moduleNameMapper": {
     "^@app/database(|/.*)$": "<rootDir>/../libs/database/src/$1",
+    "^@app/helpers(|/.*)$": "<rootDir>/../libs/helpers/src/$1",
     "^@app/jwt-auth(|/.*)$": "<rootDir>/../libs/jwt-auth/src/$1"
   }
 }

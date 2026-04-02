@@ -35,8 +35,7 @@ export class UserEntity extends BaseEntity {
     role: UserRole;
 
     @Column({
-        name: 'refresh_token',
-        nullable: true
+        type: 'text', name: 'refresh_token', nullable: true
     })
     refreshToken: string;
 
