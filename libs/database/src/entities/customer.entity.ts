@@ -5,56 +5,56 @@ import { UserEntity } from "./user.entity";
 export class CustomerEntity extends BaseEntity {
     
     @PrimaryGeneratedColumn("increment")
-    id: number;
+    id!: number;
 
     // 🔗 Relation with User
     @ManyToOne(() => UserEntity, (user) => user.id, { nullable: false })
     @JoinColumn({ name: 'user_id' })
-    user: UserEntity;
+    user!: UserEntity;
 
     @Column({
         type: 'text',
         nullable: false
     })
-    address: string;
+    address!: string;
 
     @Column({
         type: 'varchar',
         nullable: false
     })
-    city: string;
+    city!: string;
 
     @Column({
         type: 'varchar',
         nullable: false
     })
-    state: string;
+    state!: string;
 
     @Column({
         type: 'varchar',
         nullable: false
     })
-    zip: string;
+    zip!: string;
 
     @Column({
         type: 'varchar',
         nullable: false
     })
-    country: string;
+    country!: string;
 
     @Column({
         type: 'varchar',
         name: 'gst_number',
         nullable: true
     })
-    gstNumber: string;
+    gstNumber!: string;
 
     /*
     * Create and Update Date Columns
     */
     @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
-    createdAt: Date;
+    createdAt!: Date;
 
     @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
-    updatedAt: Date;
+    updatedAt!: Date;
 }

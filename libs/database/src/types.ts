@@ -31,3 +31,16 @@ export enum UserRole {
     ADMIN = 'Admin',
     Customer = 'Customer'
 }
+
+export enum SortDirection {
+    ASC = 'ASC',
+    DESC = 'DESC',
+}
+
+
+export enum ProductSortableFields {
+    NAME = 'name',
+    PRICE = 'price',
+    QUANTITY = 'quantity',
+    CREATED_AT = 'created_at',
+};

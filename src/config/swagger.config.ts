@@ -13,6 +13,14 @@ export function setupSwagger(app: INestApplication) {
             },
             'refresh-token', // ✅ MUST MATCH EXACTLY
         )
+        .addBearerAuth(
+            {
+                type: 'http',
+                scheme: 'bearer',
+                bearerFormat: 'JWT',
+            },
+            'access-token' // ✅ MUST MATCH EXACTLY
+        )
         .setVersion('1.0')
         .build();
     const document = SwaggerModule.createDocument(app, config);
