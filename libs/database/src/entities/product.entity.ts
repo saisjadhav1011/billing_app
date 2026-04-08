@@ -5,19 +5,19 @@ import { ProductUnit, UnitType } from "../types";
 export class ProductEntity extends BaseEntity {
 
     @PrimaryGeneratedColumn("increment")
-    id: number;
+    id!: number;
 
     @Column({
         type: 'varchar',
         nullable: false
     })
-    name: string;
+    name!: string;
 
     @Column({
         type: 'text',
         nullable: true
     })
-    description: string;
+    description?: string;
 
     @Column({
         type: 'decimal',
@@ -25,27 +25,27 @@ export class ProductEntity extends BaseEntity {
         scale: 2,
         nullable: false
     })
-    price: number;
+    price!: number;
 
     @Column({
         type: 'int',
         default: 0
     })
-    quantity: number; // stock quantity
+    quantity!: number; // stock quantity
 
     @Column({
         type: 'enum',
         enum: UnitType,
         nullable: false
     })
-    unitType: UnitType;
+    unitType!: UnitType;
 
     @Column({
         type: 'enum',
         enum: ProductUnit,
         nullable: false
     })
-    unit: ProductUnit;
+    unit!: ProductUnit;
 
     @Column({
         type: 'decimal',
@@ -53,27 +53,27 @@ export class ProductEntity extends BaseEntity {
         scale: 2,
         default: 0
     })
-    tax: number; // GST % (e.g., 18.00)
+    tax!: number; // GST % (e.g., 18.00)
 
     @Column({
         type: 'varchar',
         name: 'hsn_code',
         nullable: true
     })
-    hsnCode: string; // GST HSN code
+    hsnCode!: string; // GST HSN code
 
     @Column({
         type: 'boolean',
         default: true
     })
-    isActive: boolean;
+    isActive!: boolean;
 
     /*
     * Create and Update Date Columns
     */
     @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
-    createdAt: Date;
+    createdAt!: Date;
 
     @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
-    updatedAt: Date;
+    updatedAt!: Date;
 }

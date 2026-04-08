@@ -5,45 +5,45 @@ import { UserRole } from "../types";
 @Entity('user')
 export class UserEntity extends BaseEntity {
     @PrimaryGeneratedColumn("increment")
-    id: number;
+    id!: number;
 
     @Column({
         type: 'varchar', name: 'first_name', nullable: false
     })
-    firstName: string;
+    firstName!: string;
 
     @Column({
         type: 'varchar', name: 'last_name', nullable: false
     })
-    lastName: string;
+    lastName!: string;
 
     @Column({
         type: 'varchar', name: 'email', nullable: false, unique: true
     })
-    email: string;
+    email!: string;
 
     @Column({
         type: 'varchar', name: 'password', nullable: false
     })
-    password: string;
+    password!: string;
 
     @Column({
         type: 'enum',
         enum: UserRole,
         default: UserRole.Customer,
     })
-    role: UserRole;
+    role!: UserRole;
 
     @Column({
         type: 'text', name: 'refresh_token', nullable: true
     })
-    refreshToken: string;
+    refreshToken?: string;
 
     @Column({
         name: 'reset_token',
         nullable: true
     })
-    resetToken: string;
+    resetToken?: string;
 
     /*
     * Create and Update Date Columns
