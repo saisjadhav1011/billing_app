@@ -1,3 +1,4 @@
+import { UserRole } from '@app/database/types';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -9,20 +10,22 @@ export class JwtAuthService {
         private readonly configService: ConfigService,
     ) { }
 
-    generateAccessToken(input: { userId: number, email: string }) {
+    generateAccessToken(input: { userId: number, email: string, role?: UserRole }) {
         return this.jwtService.signAsync({
             sub: input.userId,
-            email: input.email
+            email: input.email,
+            role: input.role || UserRole.Customer
         }, {
             secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
             expiresIn: '1d',
         });
     }
 
-    generateRefreshToken(input: { userId: number, email: string }) {
+    generateRefreshToken(input: { userId: number, email: string, role?: UserRole }) {
         return this.jwtService.signAsync({
             sub: input.userId,
-            email: input.email
+            email: input.email,
+            role: input.role || UserRole.Customer
         }, {
             secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
             expiresIn: '7d',
