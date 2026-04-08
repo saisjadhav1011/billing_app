@@ -38,11 +38,16 @@ export class AuthService {
 
         return {
             message: 'User Registered Successfully...',
-            data: user
+            data: {
+                id: user.id,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                email: user.email,
+            }
         };
     }
-    
-    async singIn(input: SignInDto) {
+
+    async signIn(input: SignInDto) {
         const user = await this.userRepository.findByEmail(input.email);
 
         if (!user) {
@@ -55,8 +60,8 @@ export class AuthService {
             throw new ForbiddenException('Invalid user name or password');
         }
 
-        const accessToken = await this.jwtAuthService.generateAccessToken({ userId: user.id, email: user.email });
-        const refreshToken = await this.jwtAuthService.generateRefreshToken({ userId: user.id, email: user.email });
+        const accessToken = await this.jwtAuthService.generateAccessToken({ userId: user.id, email: user.email, role: user.role });
+        const refreshToken = await this.jwtAuthService.generateRefreshToken({ userId: user.id, email: user.email, role: user.role });
 
         await this.updateRefreshToken(user.id, refreshToken);
         return {
@@ -74,5 +79,47 @@ export class AuthService {
         await this.userRepository.update({ id: userId }, {
             refreshToken: hashedRefreshToken,
         });
+    }
+
+    async refreshToken(userId: number, refreshToken: string) {
+        const user = await this.userRepository.findOneBy({ id: userId });
+
+        if (!user || !user.refreshToken) {
+            throw new ForbiddenException('Access denied');
+        }
+
+        // 🔐 Compare hashed refresh token
+        const isMatch = await this.authHelper.isPasswordValid(
+            refreshToken,
+            user.refreshToken
+        );
+
+        if (!isMatch) {
+            throw new ForbiddenException('Invalid refresh token');
+        }
+
+        // 🎟 Generate new tokens
+        const accessToken = await this.jwtAuthService.generateAccessToken({
+            userId: user.id,
+            email: user.email,
+            role: user.role
+        });
+
+        const newRefreshToken = await this.jwtAuthService.generateRefreshToken({
+            userId: user.id,
+            email: user.email,
+            role: user.role
+        });
+
+        // 🔄 Update refresh token
+        await this.updateRefreshToken(user.id, newRefreshToken);
+
+        return {
+            message: 'Token refreshed successfully',
+            data: {
+                accessToken,
+                refreshToken: newRefreshToken,
+            },
+        };
     }
 }

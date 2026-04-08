@@ -17,10 +17,10 @@ export class AccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: JwtPayload) {
-    const { userId } = payload;
+    const { sub } = payload;
 
     // ✅ Use ID instead of email
-    const user = await this.userRepository.findOneBy({ id: userId });
+    const user = await this.userRepository.findOneBy({ id: sub });
 
     if (!user) {
       throw new UnauthorizedException('User not found');

@@ -1,2 +1,4 @@
-export * from './access-token.guards';
-export * from './refresh-token.guards';
+export * from './access-token.guard';
+export * from './refresh-token.guard';
+export * from './admin.guard';
+export * from './customer.guard';
