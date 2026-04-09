@@ -11,8 +11,9 @@ export class JwtAuthService {
     ) { }
 
     generateAccessToken(input: { userId: number, email: string, role?: UserRole }) {
+        console.log('Generating access token for user:', input);
         return this.jwtService.signAsync({
-            sub: input.userId,
+            id: input.userId,
             email: input.email,
             role: input.role || UserRole.Customer
         }, {
@@ -23,7 +24,7 @@ export class JwtAuthService {
 
     generateRefreshToken(input: { userId: number, email: string, role?: UserRole }) {
         return this.jwtService.signAsync({
-            sub: input.userId,
+            id: input.userId,
             email: input.email,
             role: input.role || UserRole.Customer
         }, {
@@ -32,9 +33,9 @@ export class JwtAuthService {
         });
     }
 
-    generateResetPasswordToken(input: { userId: string, email: string }) {
+    generateResetPasswordToken(input: { userId: number, email: string }) {
         return this.jwtService.signAsync({
-            sub: input.userId,
+            id: input.userId,
             email: input.email
         }, {
             secret: this.configService.get<string>('JWT_RESET_SECRET'),
@@ -47,7 +48,7 @@ export class JwtAuthService {
             const payload = await this.jwtService.verifyAsync(token, {
                 secret: this.configService.get<string>('JWT_RESET_SECRET'),
             });
-            return payload.sub;
+            return payload.id;
         } catch (err) {
             return null;
         }

@@ -1,5 +1,6 @@
 import { ProductSortableFields, ProductUnit, SortDirection, UnitType } from "@app/database/types";
 import { ApiProperty } from "@nestjs/swagger";
+import { Expose } from "class-transformer";
 import { IsEnum, IsNotEmpty, IsNumber, IsNumberString, IsOptional, IsString, Min } from "class-validator";
 
 export class CreateProductDto {
@@ -23,11 +24,11 @@ export class CreateProductDto {
     @Min(0)
     quantity!: number;
 
-    @ApiProperty({ example: 'Unit Type', description: 'The type of unit for the product' })
+    @ApiProperty({ example: UnitType.WEIGHT, description: 'The type of unit for the product', enum: UnitType })
     @IsEnum(UnitType)
     unitType!: UnitType;
 
-    @ApiProperty({ example: 'Product Unit', description: 'The unit for the product' })
+    @ApiProperty({ example: ProductUnit.KG, description: 'The unit for the product', enum: ProductUnit })
     @IsEnum(ProductUnit)
     unit!: ProductUnit;
 
@@ -73,4 +74,52 @@ export class GetProductsDto {
     sortDirection?: SortDirection = SortDirection.DESC;
 }
 
-export class UpdateProductDto extends CreateProductDto {}
+export class UpdateProductDto extends CreateProductDto { }
+
+export class ProductResponseDto {
+    @ApiProperty({ example: 1, description: 'The ID of the product' })
+    @Expose()
+    id!: number;
+
+    @ApiProperty({ example: 'Product Name', description: 'The name of the product' })
+    @Expose()
+    name!: string;
+
+    @ApiProperty({ example: 'Product Description', description: 'The description of the product', required: false })
+    @Expose()
+    description?: string;
+
+    @ApiProperty({ example: 99.99, description: 'The price of the product' })
+    @Expose()
+    price!: number;
+
+    @ApiProperty({ example: 10, description: 'The quantity of the product' })
+    @Expose()
+    quantity!: number;
+
+    @ApiProperty({ example: UnitType.WEIGHT, description: 'The type of unit for the product', enum: UnitType })
+    @Expose()
+    unitType!: UnitType;
+
+    @ApiProperty({ example: ProductUnit.KG, description: 'The unit for the product', enum: ProductUnit })
+    @Expose()
+    unit!: ProductUnit;
+
+    @ApiProperty({ example: 18, description: 'The tax percentage for the product', required: false })
+    @Expose()
+    tax?: number;
+
+    @ApiProperty({ example: 'HSN Code', description: 'The HSN code for the product', required: false })
+    @Expose()
+    hsnCode?: string;
+}
+
+export class ProductListResponseDto {
+    @ApiProperty({ type: [ProductResponseDto], description: 'List of products' })
+    @Expose()
+    items!: ProductResponseDto[];
+
+    @ApiProperty({ example: 100, description: 'Total number of products matching the criteria' })
+    @Expose()
+    total!: number;
+}

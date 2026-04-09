@@ -1,5 +1,6 @@
-import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ProductUnit, UnitType } from "../types";
+import { UserEntity } from "./user.entity";
 
 @Entity('product')
 export class ProductEntity extends BaseEntity {
@@ -67,6 +68,10 @@ export class ProductEntity extends BaseEntity {
         default: true
     })
     isActive!: boolean;
+
+    @ManyToOne(() => UserEntity, { nullable: false })
+    @JoinColumn({ name: 'created_by' })
+    createdBy!: UserEntity;
 
     /*
     * Create and Update Date Columns

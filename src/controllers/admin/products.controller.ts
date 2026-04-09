@@ -1,13 +1,17 @@
 import { AccessTokenGuard, AdminGuard } from "@app/jwt-auth/guards";
-import { Controller, Delete, Get, Post, Put, UseGuards } from "@nestjs/common";
-import { ApiBadRequestResponse, ApiBearerAuth, ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiSecurity, ApiTags } from "@nestjs/swagger";
-import { CreateProductDto, GetProductsDto, UpdateProductDto } from "../../dto";
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
+import { ApiBadRequestResponse, ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiSecurity, ApiTags } from "@nestjs/swagger";
+import { CreateProductDto, GetProductsDto, ProductListResponseDto, ProductResponseDto, UpdateProductDto } from "../../dto";
+import { ProductsService } from "../../services";
+import { GetCurrentUserId } from "@app/jwt-auth/decorators";
 
 @ApiTags("Admin Products")
 @ApiSecurity("access-token")
 @Controller("admin/products")
 @UseGuards(AccessTokenGuard, AdminGuard)
 export class AdminProductsController {
+    constructor(private readonly productsService: ProductsService) { }
+
     @ApiOperation({
         summary: 'Create Product',
         description: 'Create a new product (Admin only)',
@@ -16,29 +20,30 @@ export class AdminProductsController {
     @ApiBadRequestResponse({ description: 'Invalid input data' })
     @ApiBody({ type: CreateProductDto })
     @Post()
-    create() {
+    create(@GetCurrentUserId() userId: number, @Body() input: CreateProductDto) {
+        return this.productsService.create(userId, input);
     }
 
     @ApiOperation({
         summary: 'Get Products',
         description: 'Retrieve a list of all products (Admin only)',
     })
-    @ApiQuery({ type: GetProductsDto})
-    @ApiResponse({ status: 200, description: 'List of products retrieved successfully' })
+    @ApiResponse({ status: 200, description: 'List of products retrieved successfully', type: ProductListResponseDto })
     @ApiBadRequestResponse({ description: 'Invalid request' })
     @Get()
-    findAll() {
-        
+    findAll(@Query() input: GetProductsDto) {
+        return this.productsService.findAll(input);
     }
 
     @ApiOperation({
         summary: 'Get Product by ID',
         description: 'Retrieve a product by its ID (Admin only)',
     })
-    @ApiResponse({ status: 200, description: 'Product retrieved successfully' })
+    @ApiResponse({ status: 200, description: 'Product retrieved successfully', type: ProductResponseDto })
     @ApiBadRequestResponse({ description: 'Invalid request' })
     @Get('/:id')
-    findOne() {
+    findOne(@Param('id') id: number) {
+        return this.productsService.findOne(id);
     }
 
     @ApiOperation({
@@ -49,7 +54,8 @@ export class AdminProductsController {
     @ApiResponse({ status: 200, description: 'Product updated successfully' })
     @ApiBadRequestResponse({ description: 'Invalid input data' })
     @Put('/:id')
-    update() {
+    update(@Param('id') id: number, @Body() input: UpdateProductDto) {
+        return this.productsService.update(id, input);
     }
 
     @ApiOperation({
@@ -59,8 +65,7 @@ export class AdminProductsController {
     @ApiResponse({ status: 200, description: 'Product deleted successfully' })
     @ApiBadRequestResponse({ description: 'Invalid request' })
     @Delete('/:id')
-    delete() {
+    delete(@Param('id') id: number) {
+        return this.productsService.remove(id);
     }
-
-
 }
