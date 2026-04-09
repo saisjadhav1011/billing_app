@@ -1,7 +1,7 @@
 import { UserRole } from "@app/database/types";
 
 export type JwtPayload = {
-    sub: number;
+    id: number;
     email: string;
     role: UserRole;
 };
