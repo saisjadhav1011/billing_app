@@ -44,3 +44,12 @@ export enum ProductSortableFields {
     QUANTITY = 'quantity',
     CREATED_AT = 'created_at',
 };
+
+
+export enum CustomerSortFields {
+    CREATED_AT = 'createdAt',
+    CITY = 'city',
+    STATE = 'state',
+    FIRST_NAME = 'firstName',
+    LAST_NAME = 'lastName',
+}
