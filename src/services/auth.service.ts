@@ -54,6 +54,10 @@ export class AuthService {
             throw new NotFoundException('Invalid username or password');
         }
 
+        if(user.isBlocked || user.isDeleted) {
+            throw new ForbiddenException('Your account has been blocked or deleted. Please contact support for assistance.');
+        }
+
         const isPasswordMatches = await this.authHelper.isPasswordValid(input.password, user.password);
 
         if (!isPasswordMatches) {

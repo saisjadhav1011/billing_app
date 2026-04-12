@@ -1,4 +1,3 @@
-import { Exclude } from "class-transformer";
 import { BaseEntity, Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserRole } from "../types";
 
@@ -44,6 +43,18 @@ export class UserEntity extends BaseEntity {
         nullable: true
     })
     resetToken?: string;
+
+    @Column({
+        name: 'is_blocked',
+        default: false
+     })
+    isBlocked!: boolean;
+
+    @Column({
+        name: 'is_deleted',
+        default: false
+     })
+    isDeleted!: boolean;
 
     /*
     * Create and Update Date Columns
